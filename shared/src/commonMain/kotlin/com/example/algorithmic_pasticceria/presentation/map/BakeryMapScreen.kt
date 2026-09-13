@@ -58,13 +58,13 @@ fun BakeryMapScreen(onNavigateTo: (Screen) -> Unit) {
                 .background(Color(0xFFE8D5B7), shape = RoundedCornerShape(24.dp))
                 .padding(24.dp)
         ) {
-            // Customer Queue (Top Left)
+            // Customer Queue (Top Left) -> Routes to the Chapter Table of Contents
             BakeryStation(
                 title = "Counter Line 🐱",
                 subtitle = "Queue & Sorting",
                 color = Color(0xFFFFB4A2),
                 modifier = Modifier.align(Alignment.TopStart),
-                onClick = { onNavigateTo(Screen.CustomerQueue) }
+                onClick = { onNavigateTo(Screen.SortingChapterMenu) }
             )
 
             // Cash Register (Top Right)

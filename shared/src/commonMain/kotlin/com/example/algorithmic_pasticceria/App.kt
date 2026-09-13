@@ -4,7 +4,8 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import com.example.algorithmic_pasticceria.presentation.map.BakeryMapScreen
-import com.example.algorithmic_pasticceria.presentation.levels.QueueSortingScreen
+import com.example.algorithmic_pasticceria.presentation.levels.SortingChapterMenuScreen
+import com.example.algorithmic_pasticceria.presentation.levels.SortingNotebookScreen
 import com.example.algorithmic_pasticceria.presentation.navigation.Screen
 
 @Composable
@@ -14,10 +15,23 @@ fun App() {
 
         Crossfade(targetState = currentScreen) { screen ->
             when (screen) {
-                is Screen.BakeryFloor -> BakeryMapScreen(onNavigateTo = { currentScreen = it })
-                is Screen.CustomerQueue -> QueueSortingScreen(onBack = { currentScreen = Screen.BakeryFloor })
-                is Screen.CashRegister -> BakeryMapScreen(onNavigateTo = { currentScreen = it })
-                is Screen.PastryShowcase -> BakeryMapScreen(onNavigateTo = { currentScreen = it })
+                is Screen.BakeryFloor -> BakeryMapScreen(
+                    onNavigateTo = { requestedScreen -> currentScreen = requestedScreen }
+                )
+                is Screen.SortingChapterMenu -> SortingChapterMenuScreen(
+                    onSelectAlgorithm = { algoId -> currentScreen = Screen.SortingLesson(algoId) },
+                    onBack = { currentScreen = Screen.BakeryFloor }
+                )
+                is Screen.SortingLesson -> SortingNotebookScreen(
+                    algorithmId = screen.algorithmId,
+                    onBack = { currentScreen = Screen.SortingChapterMenu }
+                )
+                is Screen.CashRegister -> BakeryMapScreen(
+                    onNavigateTo = { currentScreen = it }
+                )
+                is Screen.PastryShowcase -> BakeryMapScreen(
+                    onNavigateTo = { currentScreen = it }
+                )
             }
         }
     }
