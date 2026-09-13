@@ -1,43 +1,23 @@
 package com.example.algorithmic_pasticceria
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
+import androidx.compose.animation.Crossfade
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.painterResource
-
+import com.example.algorithmic_pasticceria.presentation.map.BakeryMapScreen
+import com.example.algorithmic_pasticceria.presentation.levels.QueueSortingScreen
+import com.example.algorithmic_pasticceria.presentation.navigation.Screen
 
 @Composable
-@Preview
 fun App() {
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .safeContentPadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Enter the Pasticceria! 🥐")
-            }
-            AnimatedVisibility(showContent) {
-                Text(
-                    text = "Welcome at the Algorithmic Pasticceria!",
-                    modifier = Modifier.padding(16.dp)
-                )
+        var currentScreen by remember { mutableStateOf<Screen>(Screen.BakeryFloor) }
+
+        Crossfade(targetState = currentScreen) { screen ->
+            when (screen) {
+                is Screen.BakeryFloor -> BakeryMapScreen(onNavigateTo = { currentScreen = it })
+                is Screen.CustomerQueue -> QueueSortingScreen(onBack = { currentScreen = Screen.BakeryFloor })
+                is Screen.CashRegister -> BakeryMapScreen(onNavigateTo = { currentScreen = it })
+                is Screen.PastryShowcase -> BakeryMapScreen(onNavigateTo = { currentScreen = it })
             }
         }
     }
