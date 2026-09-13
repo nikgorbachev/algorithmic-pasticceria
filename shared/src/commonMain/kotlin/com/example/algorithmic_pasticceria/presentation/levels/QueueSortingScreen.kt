@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.algorithmic_pasticceria.presentation.components.AnimalAvatar
+import com.example.algorithmic_pasticceria.presentation.components.AnimalType
 
 data class BakeryCustomer(val id: Int, val ticketNumber: Int, val emoji: String, val name: String)
 
@@ -36,7 +38,7 @@ fun QueueSortingScreen(onBack: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(onClick = onBack) { Text("← Torna alla Mappa") }
+            Button(onClick = onBack) { Text("← Back to the Map") }
             Text("Line Sorting (Customer Tickets)", style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.width(64.dp))
         }
@@ -61,9 +63,28 @@ fun QueueSortingScreen(onBack: () -> Unit) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        Text(customer.emoji, fontSize = 36.sp)
-                        Text("#${customer.ticketNumber}", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, fontSize = 18.sp)
-                        Text(customer.name, fontSize = 11.sp, color = Color.Gray)
+                        // ---> HERE: Replace Text(customer.emoji, ...) with this:
+                        AnimalAvatar(
+                            type = when (customer.name) {
+                                "Mario the Cat" -> AnimalType.CAT
+                                "Bruno the Dog" -> AnimalType.DOG
+                                "Luigi the Fox" -> AnimalType.FOX
+                                else -> AnimalType.BEAR
+                            }
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        Text(
+                            "#${customer.ticketNumber}",
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                            fontSize = 18.sp
+                        )
+                        Text(
+                            customer.name,
+                            fontSize = 11.sp,
+                            color = Color.Gray
+                        )
                     }
                 }
             }

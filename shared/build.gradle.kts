@@ -7,7 +7,10 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 }
-
+compose.resources {
+    packageOfResClass = "com.example.algorithmic_pasticceria.generated.resources"
+    generateResClass = always
+}
 kotlin {
     jvmToolchain(21)
     listOf(
